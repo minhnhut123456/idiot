@@ -1,0 +1,63 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/products-idiot",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/products-idiot",
+        "outputPath": "dist/apps/products-idiot",
+        "postcssConfig": "apps/products-idiot/postcss.config.js"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "tmp/apps/products-idiot"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "products-idiot:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "products-idiot:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "products-idiot:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "products-idiot:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/products-idiot"],
+      "options": {
+        "jestConfig": "apps/products-idiot/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/products-idiot/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}

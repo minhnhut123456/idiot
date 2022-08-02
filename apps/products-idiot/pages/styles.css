@@ -370,7 +370,7 @@ summary:hover {
 summary svg {
   height: 1.5rem;
   margin-right: 1rem;
-  width: 1.5rem;
+  width: 1.5em;
 }
 #love {
   color: rgba(107, 114, 128, 1);

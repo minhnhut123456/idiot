@@ -1,16 +1,12 @@
-name: ci
+name: cicd
 
 on:
   push:
     branches:
       - "**"
 
-# concurrency:
-#   group: branch-${{ github.ref }}
-#   cancel-in-progress: true
-
-# env:
-#   GITHUB_SHA: ${{ github.sha }}
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
 jobs:
   deploy:
@@ -18,3 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Login to Heroku Container registry
+        run: heroku container:login 
+      - name: Push code and build image on Heroku remote repo
+        run: heroku container:push -a ${{ secrets.IDIOT_APP_NAME }} productIdiot --recursive
+      - name: Release
+        run: heroku container:release -a ${{ secrets.IDIOT_APP_NAME }} productIdiot

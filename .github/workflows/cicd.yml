@@ -16,7 +16,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Login to Heroku Container registry
         run: heroku container:login 
+      - name: Build image
+        run: docker build --file ProductIdiot.DockerFile --tag registry.heroku.com/${{ secrets.IDIOT_APP_NAME }}/web .
       - name: Push code and build image on Heroku remote repo
-        run: heroku container:push -a ${{ secrets.IDIOT_APP_NAME }} productIdiot --recursive
+        run: docker push registry.heroku.com/${{ secrets.IDIOT_APP_NAME }}/web
       - name: Release
-        run: heroku container:release -a ${{ secrets.IDIOT_APP_NAME }} productIdiot
+        run: heroku container:release web --app ${{ secrets.IDIOT_APP_NAME }}
